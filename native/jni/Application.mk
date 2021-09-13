@@ -1,7 +1,7 @@
 APP_ABI := armeabi-v7a x86
 APP_CFLAGS := -Wall -Oz -fomit-frame-pointer -flto \
 -D__MVSTR=${MAGISK_VERSION} -D__MCODE=${MAGISK_VER_CODE}
-APP_LDFLAGS := -flto
+APP_LDFLAGS := -flto -fuse-ld=gold
 APP_CPPFLAGS := -std=c++17
 APP_STL := none
 APP_PLATFORM := android-16

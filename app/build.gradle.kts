@@ -73,9 +73,19 @@ val syncLibs by tasks.registering(Sync::class) {
             include("busybox", "magiskboot", "magiskinit", "magisk")
             rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
         }
+    }
+    into("arm64-v8a") {
         from(rootProject.file("native/out/arm64-v8a")) {
-            include("magisk")
-            rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
+            include("busybox", "magiskboot", "magiskinit", "magisk")
+            rename { 
+                if (it == "magisk") {
+                    "libmagisk64.so"
+                } else if (it == "busybox") {
+                    "libbusybox.so"
+                } else {
+                    "lib${it}64.so"
+                }
+            }
         }
     }
     into("x86") {
@@ -87,11 +97,6 @@ val syncLibs by tasks.registering(Sync::class) {
             include("magisk")
             rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
         }
-    }
-    onlyIf {
-        if (inputs.sourceFiles.files.size != 10)
-            throw StopExecutionException("Please build binaries first! (./build.py binary)")
-        true
     }
 }
 
